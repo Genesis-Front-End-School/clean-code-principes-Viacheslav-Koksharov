@@ -1,1 +1,1 @@
-export { default } from './CoursesItem';
+export { default } from 'components/CoursesItem/CoursesItem';

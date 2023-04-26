@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { colors } from '../../utils/colors';
-import { secondary } from '../../utils/breakpoints';
+import { colors } from 'utils/colors';
+import { secondary } from 'utils/breakpoints';
 
+const { decor, accent } = colors;
 const { desktop } = secondary;
 
 interface Props {
   accent?: boolean;
 }
 
-const ListItemS = styled.li`
+const ListItemStyles = styled.li`
   margin: 0 0 20px 0;
   padding: 20px;
-  border: 2px solid ${colors.decor};
+  border: 2px solid ${decor};
   border-radius: 5px;
 
   @media screen and (min-width: ${desktop}px) {
@@ -21,7 +22,7 @@ const ListItemS = styled.li`
   }
 `;
 
-const LinkItemS = styled(Link)`
+const LinkItemStyles = styled(Link)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -29,23 +30,23 @@ const LinkItemS = styled(Link)`
   height: 100%;
 `;
 
-const ImageContainerS = styled.div`
+const ImageContainerStyles = styled.div`
   width: 90%;
   height: 250px;
   margin-bottom: 20px;
 `;
 
-const TitleS = styled.h2`
+const TitleStyles = styled.h2`
   align-self: center;
   width: 90%;
   height: 50px;
   margin: 0 0 15px 0;
   text-align: center;
-  color: ${colors.accent};
+  color: ${accent};
   font-size: 20px;
 `;
 
-const TextS = styled.p`
+const TextStyles = styled.p`
   position: ${(props: Props) => (props.accent ? 'absolute' : 'static')};
   bottom: 0;
   align-self: ${(props: Props) => (props.accent ? 'flex-end' : 'center')};
@@ -54,29 +55,29 @@ const TextS = styled.p`
   font-weight: 600;
 `;
 
-const SkillsListS = styled.ol`
-  align-self: flex-start;
-  padding-inline-start: 20px;
-`;
-
-const SkillTitleS = styled.h3`
+const SkillsTitleStyles = styled.h3`
   margin: 0 0 15px 0;
   align-self: flex-start;
   font-size: 18px;
 `;
 
-const SkillsItemS = styled.li`
+const SkillsListStyles = styled.ol`
+  align-self: flex-start;
+  padding-inline-start: 20px;
+`;
+
+const SkillsItemStyles = styled.li`
   margin: 0 15px 15px 0;
   font-size: 16px;
 `;
 
 export {
-  ListItemS,
-  LinkItemS,
-  ImageContainerS,
-  TitleS,
-  TextS,
-  SkillsListS,
-  SkillTitleS,
-  SkillsItemS,
+  ListItemStyles,
+  LinkItemStyles,
+  ImageContainerStyles,
+  TitleStyles,
+  TextStyles,
+  SkillsTitleStyles,
+  SkillsListStyles,
+  SkillsItemStyles,
 };

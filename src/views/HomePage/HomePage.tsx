@@ -1,15 +1,15 @@
-import { colors } from '../../utils/colors';
-import CoursesList from '../../components/CoursesList/CoursesList';
-import ScrollTopButton from '../../components/ScrollTopButton/ScrollTopButton';
-import Loader from '../../components/Loader';
-import { TitleS } from './HomePage.styled';
+import CoursesList from 'components/CoursesList/CoursesList';
+import ScrollTopButton from 'components/ScrollTopButton/ScrollTopButton';
+import Loader from 'components/Loader';
+import { colors } from 'utils/colors';
+import { TitleStyles } from 'views/HomePage/HomePage.styled';
 
 const HomePage = ({ currentCourses }) => {
   return (
     <>
       {currentCourses ? (
         <>
-          <TitleS>Current Courses</TitleS>
+          <TitleStyles>Current Courses</TitleStyles>
           <CoursesList currentCourses={currentCourses} />
         </>
       ) : (

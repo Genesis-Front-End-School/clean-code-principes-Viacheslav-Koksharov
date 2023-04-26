@@ -1,1 +1,1 @@
-export { default } from './CoursePage.jsx';
+export { default } from 'views/CoursePage/CoursePage';

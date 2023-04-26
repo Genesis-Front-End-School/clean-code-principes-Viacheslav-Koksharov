@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { primary } from '../../utils/breakpoints';
+import { primary } from 'utils/breakpoints';
 
 const { desktop } = primary;
 
-const ContainerS = styled.div`
+const ContainerStyles = styled.div`
   position: relative;
   width: 100%;
   margin: 0px auto;
@@ -14,4 +14,4 @@ const ContainerS = styled.div`
   }
 `;
 
-export { ContainerS };
+export { ContainerStyles };

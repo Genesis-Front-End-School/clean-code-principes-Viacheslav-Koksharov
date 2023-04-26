@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
-import { secondary } from '../../utils/breakpoints';
+import { secondary } from 'utils/breakpoints';
 
 const { desktop } = secondary;
 
-const ListStyled = styled.ul`
+const ListStyles = styled.ul`
   display: flex;
   flex-wrap: wrap;
   max-width: 600px;
@@ -16,7 +16,7 @@ const ListStyled = styled.ul`
   }
 `;
 
-const PaginationStyled = styled(Pagination)`
+const PaginationStyles = styled(Pagination)`
   && {
     display: flex;
     flex-direction: column;
@@ -24,4 +24,4 @@ const PaginationStyled = styled(Pagination)`
     margin: 0 0 30px 0;
   }
 `;
-export { ListStyled, PaginationStyled };
+export { ListStyles, PaginationStyles };
