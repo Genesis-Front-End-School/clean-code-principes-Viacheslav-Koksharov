@@ -1,30 +1,25 @@
 import { useState, useEffect } from 'react';
-import { getToken, getCourses } from '../../services/api';
-import { IToken } from '../../interfaces/Token.interface';
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { colors } from '../../utils/colors';
-import site_unavailable from '../../images/site_unavailable.jpg';
-import route_unavailable from '../../images/route_unavailable.jpg';
-import Container from '../Container/Container';
-import Loader from '../Loader/Loader';
-import Error from '../Error';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import Container from 'components/Container';
+import Loader from 'components/Loader';
+import Error from 'components/Error';
+import site_unavailable from 'images/site_unavailable.jpg';
+import route_unavailable from 'images/route_unavailable.jpg';
+import { getToken, getCourses } from 'services/api';
+import { colors } from 'utils/colors';
+import { IToken } from 'interfaces/Token.interface';
 
 const Homepage = lazy(
-  () =>
-    import('../../views/HomePage/HomePage' /* webpackChunkName: "HomePage" */),
+  () => import('views/HomePage' /* webpackChunkName: "HomePage" */),
 );
 const CoursePage = lazy(
-  () =>
-    import(
-      '../../views/CoursePage/CoursePage' /* webpackChunkName: "CoursePage" */
-    ),
+  () => import('views/CoursePage' /* webpackChunkName: "CoursePage" */),
 );
 const LessonPage = lazy(
-  () =>
-    import(
-      '../../views/LessonPage/LessonPage' /* webpackChunkName: "LessonPage" */
-    ),
+  () => import('views/LessonPage' /* webpackChunkName: "LessonPage" */),
 );
 
 const App: React.FC = () => {
@@ -33,7 +28,7 @@ const App: React.FC = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function getCurrentToken() {
+    const getCurrentToken = async () => {
       const response = await getToken();
 
       if (response.token) {
@@ -41,13 +36,13 @@ const App: React.FC = () => {
       } else {
         setError(response.message);
       }
-    }
+    };
 
     getCurrentToken();
   }, []);
 
   useEffect(() => {
-    async function getCurrentCourses() {
+    const getCurrentCourses = async () => {
       if (token) {
         const response = await getCourses(token);
 
@@ -57,7 +52,7 @@ const App: React.FC = () => {
           setCurrentCourses(response);
         }
       }
-    }
+    };
 
     getCurrentCourses();
   }, [token]);
@@ -80,19 +75,20 @@ const App: React.FC = () => {
         ) : (
           <Routes>
             <Route
-              path="/"
+              path='/'
               element={<Homepage currentCourses={currentCourses} />}
             />
-            <Route path="/courses/:id" element={<CoursePage />}>
-              <Route path="lesson" element={<LessonPage />} />
+            <Route path='/courses/:id' element={<CoursePage />}>
+              <Route path='lesson' element={<LessonPage />} />
             </Route>
             <Route
-              path="*"
+              path='*'
               element={<Error image={route_unavailable} route />}
             />
           </Routes>
         )}
       </Suspense>
+      <ToastContainer />
     </Container>
   );
 };

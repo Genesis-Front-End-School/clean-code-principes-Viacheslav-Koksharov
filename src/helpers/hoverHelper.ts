@@ -1,6 +1,6 @@
 import video_unavailable from '../images/video_unavailable.png';
 
-const onHoverElement = (element, sourceAttr = '') => {
+const handleElementHover = (element, sourceLink = '') => {
   let start;
 
   const startPreview = () => {
@@ -15,7 +15,7 @@ const onHoverElement = (element, sourceAttr = '') => {
     if (element.pause && typeof element.pause === 'function') {
       element.pause();
     } else {
-      element.src = sourceAttr;
+      element.src = sourceLink;
     }
   };
 
@@ -29,4 +29,4 @@ const onHoverElement = (element, sourceAttr = '') => {
   });
 };
 
-export { onHoverElement };
+export { handleElementHover };

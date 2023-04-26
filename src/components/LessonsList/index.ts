@@ -1,1 +1,1 @@
-export { default } from './LessonsList';
+export { default } from 'components/LessonsList/LessonsList';

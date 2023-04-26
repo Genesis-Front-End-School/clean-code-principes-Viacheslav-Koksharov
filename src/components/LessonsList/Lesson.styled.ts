@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { colors } from '../../utils/colors';
-import { secondary } from '../../utils/breakpoints';
+import { colors } from 'utils/colors';
+import { secondary } from 'utils/breakpoints';
 
+const { decor, accent } = colors;
 const { desktop } = secondary;
 
-const ListS = styled.ul`
+const ListStyles = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -17,18 +18,18 @@ const ListS = styled.ul`
   }
 `;
 
-const ListItemS = styled.li`
+const ListItemStyles = styled.li`
   width: calc((100% - 20px) / 2);
   margin: 0 0 10px 0;
   padding: 10px;
   text-align: center;
   font-size: 12px;
-  color: ${colors.decor};
-  border: 2px solid ${colors.accent};
+  color: ${decor};
+  border: 2px solid ${accent};
   border-radius: 5px;
 
   :hover {
-    background-color: ${colors.accent};
+    background-color: ${accent};
     transform: scale(1.005);
   }
 
@@ -42,8 +43,8 @@ const ListItemS = styled.li`
   }
 `;
 
-const LinkItemS = styled(Link)`
+const LinkItemStyles = styled(Link)`
   display: block;
 `;
 
-export { ListS, ListItemS, LinkItemS };
+export { ListStyles, ListItemStyles, LinkItemStyles };
