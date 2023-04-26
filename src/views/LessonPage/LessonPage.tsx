@@ -1,15 +1,15 @@
 import { useEffect, useContext, useState, useRef } from 'react';
-import { LessonContext } from 'context/LessonContextProvider';
-import { HLS_IS_SUPPORTED } from 'helpers/constants';
-import { handleElementFormat } from 'helpers/formatHelper';
-import { handleScrollToElement } from 'helpers/scrollHelper';
 import ScrollTopButton from 'components/ScrollTopButton';
 import video_unavailable from 'images/video_unavailable.png';
+import { handleElementFormat } from 'helpers/formatHelper';
+import { handleScrollToElement } from 'helpers/scrollHelper';
+import { HLS_IS_SUPPORTED } from 'helpers/constants';
+import { LessonContext } from 'context/LessonContextProvider';
 import {
   TitleStyles,
   TextStyles,
   ImageContainerStyles,
-} from './LessonPage.styled';
+} from 'views/LessonPage/LessonPage.styled';
 
 const LessonPage = () => {
   const { lesson } = useContext(LessonContext);
@@ -59,7 +59,8 @@ const LessonPage = () => {
     if (video) {
       if (!video.paused) {
         video.addEventListener('play', () => {
-          const currentEl = currentTime.find(item => item.id === video.id);
+          const currentEl = currentTime.find(({ id }) => id === video.id);
+
           if (currentEl) {
             video.currentTime = currentEl.time;
           }
@@ -69,7 +70,7 @@ const LessonPage = () => {
         return;
       }
 
-      const currentEl = currentTime.find(item => item.id === video.id);
+      const currentEl = currentTime.find(({ id }) => id === video.id);
 
       if (!currentEl) {
         setCurrentTime([
@@ -77,9 +78,9 @@ const LessonPage = () => {
           { id: video.id, time: video.currentTime },
         ]);
       } else {
-        currentTime.forEach(item => {
-          if (item.id === video.id && video.currentTime > 0) {
-            return (item.time = video.currentTime);
+        currentTime.forEach(({ id, time }) => {
+          if (id === video.id && video.currentTime > 0) {
+            return (time = video.currentTime);
           }
         });
       }
@@ -91,16 +92,11 @@ const LessonPage = () => {
     <>
       {lesson && (
         <>
-          <TitleStyles id='lesson-title'>Lesson {lesson?.order}</TitleStyles>
+          <TitleStyles ref={titleRef}>Lesson {lesson?.order}</TitleStyles>
           <TextStyles>{lesson?.title}</TextStyles>
           <ImageContainerStyles onTimeUpdate={handleVideoTimeUpdate}>
             {lessonLink && lessonDuration ? (
-              <video
-                id={`${lesson?.link}`}
-                width='100%'
-                height='100%'
-                controls
-              />
+              <video ref={videoRef} width='100%' height='100%' controls />
             ) : (
               <img src={video_unavailable} alt='banner' />
             )}

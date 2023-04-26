@@ -1,8 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from 'App';
 import 'modern-normalize/modern-normalize.css';
+import App from 'App';
+import { ErrorProvider } from 'context/ErrorContextProvider';
+import { TokenProvider } from 'context/TokenContextProvider';
 import { LessonProvider } from 'context/LessonContextProvider';
 import 'index.css';
 
@@ -12,9 +14,13 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <BrowserRouter basename='/app-courses'>
-      <LessonProvider>
-        <App />
-      </LessonProvider>
+      <ErrorProvider>
+        <TokenProvider>
+          <LessonProvider>
+            <App />
+          </LessonProvider>
+        </TokenProvider>
+      </ErrorProvider>
     </BrowserRouter>
   </StrictMode>,
 );

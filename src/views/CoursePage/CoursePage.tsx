@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import LessonsList from 'components/LessonsList';
 import Loader from 'components/Loader';
@@ -9,6 +9,8 @@ import { HLS_IS_SUPPORTED } from 'helpers/constants';
 import { handleElementFormat } from 'helpers/formatHelper';
 import { handleScrollToTop } from 'helpers/scrollHelper';
 import { getCourseByID } from 'services/api';
+import { ErrorContext } from 'context/ErrorContextProvider';
+import { TokenContext } from 'context/TokenContextProvider';
 import { ICoursesItem } from 'interfaces/CoursesItem.interface';
 import { colors } from 'utils/colors';
 import {
@@ -20,8 +22,9 @@ import {
 } from 'views/CoursePage/CoursePage.styled';
 
 const CoursePage = () => {
+  const { error, setError } = useContext(ErrorContext);
+  const { token } = useContext(TokenContext);
   const [course, setCourse] = useState<ICoursesItem>();
-  const [error, setError] = useState(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { id } = useParams();
   const firstLesson = course?.lessons![0];
@@ -30,19 +33,18 @@ const CoursePage = () => {
   const { main } = colors;
 
   useEffect(() => {
-    async function getCurrentCourseByID() {
-      const response = await getCourseByID(id);
+    if (id && token) {
+      getCourseByID(id, token).then(response => {
+        if (response.message) {
+          setError(response.message);
+        } else {
+          setCourse(response);
+        }
+      });
 
-      if (response.message) {
-        setError(response.message);
-      } else {
-        setCourse(response);
-      }
+      handleScrollToTop();
     }
-
-    getCurrentCourseByID();
-    handleScrollToTop();
-  }, [id]);
+  }, [id, setError, token]);
 
   useEffect(() => {
     if (HLS_IS_SUPPORTED && firstLessonLink) {
@@ -54,8 +56,11 @@ const CoursePage = () => {
     }
   }, [firstLessonLink]);
 
-  if (error) return <Error error={error} image={site_unavailable} />;
-  if (course)
+  if (error) {
+    return <Error error={error} image={site_unavailable} />;
+  }
+
+  if (course) {
     return (
       <>
         <TitleStyles>Course: {course?.title}</TitleStyles>
@@ -63,7 +68,7 @@ const CoursePage = () => {
           {firstLessonLink && firstLessonDuration ? (
             <video ref={videoRef} width='100%' height='100%' controls />
           ) : (
-            <img src={video_unavailable} alt='banner' />
+            <img src={video_unavailable} alt='video unavailable' />
           )}
         </ImageContainerStyles>
         <TextStyles>Description: {course?.description}</TextStyles>
@@ -72,9 +77,10 @@ const CoursePage = () => {
             <SkillItemStyles key={skill}>#{skill}</SkillItemStyles>
           ))}
         </SkillsListStyles>
-        <LessonsList oneCourse={course} />
+        <LessonsList lessons={course?.lessons} />
       </>
     );
+  }
 
   return (
     <Loader
