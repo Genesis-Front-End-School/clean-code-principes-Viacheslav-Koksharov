@@ -1,5 +1,5 @@
 interface ILessonItem {
-  id?: string;
+  id: string;
   duration?: number;
   link?: string;
   order?: number;
@@ -9,7 +9,9 @@ interface ILessonItem {
   title?: string;
   type?: string;
 }
+
 interface ILessonsItemComponentProps {
   lesson: ILessonItem;
 }
+
 export type { ILessonsItemComponentProps, ILessonItem };

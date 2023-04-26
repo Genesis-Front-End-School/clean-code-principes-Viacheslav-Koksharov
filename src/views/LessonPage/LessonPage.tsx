@@ -1,33 +1,57 @@
-import Hls from 'hls.js';
-import { useEffect, useContext, useState } from 'react';
-import { LessonContext } from '../../context/LessonContextProvider';
-import ScrollTopButton from '../../components/ScrollTopButton';
-import video_unavailable from '../../images/video_unavailable.png';
-import { TitleS, TextS, ImageContainerS } from './LessonPage.styled';
+import { useEffect, useContext, useState, useRef } from 'react';
+import Error from 'components/Error';
+import ScrollTopButton from 'components/ScrollTopButton';
+import video_unavailable from 'images/video_unavailable.png';
+import { HLS_IS_SUPPORTED } from 'helpers/constants';
+import { handleElementFormat } from 'helpers/formatHelper';
+import { handleScrollToElement } from 'helpers/scrollHelper';
+import { IDLE, RESOLVED, REJECTED } from 'helpers/constants';
+import { LessonContext } from 'context/LessonContextProvider';
+import {
+  TitleStyles,
+  TextStyles,
+  ImageContainerStyles,
+} from 'views/LessonPage/LessonPage.styled';
 
 const LessonPage = () => {
   const { lesson } = useContext(LessonContext);
+  const [status, setStatus] = useState(IDLE);
+  const [lessonLink, setLessonLink] = useState<string | undefined>(undefined);
+  const [lessonDuration, setLessonDuration] = useState<number | undefined>(
+    undefined,
+  );
   const [video, setVideo] = useState<HTMLMediaElement>();
   const [currentTime, setCurrentTime] = useState(() => {
     return JSON.parse(window.localStorage.getItem('time')!) ?? [];
   });
   const [isPlay, setIsPlay] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (window.Hls.isSupported() && lesson?.link) {
-      const video = document.getElementById(
-        `${lesson?.link}`,
-      ) as HTMLMediaElement;
+    if (lesson) {
+      setStatus(RESOLVED);
+      setLessonLink(lesson?.link);
+      setLessonDuration(lesson?.duration);
+    }
+  }, [lesson]);
 
-      setVideo(video);
+  useEffect(() => {
+    const title = titleRef.current;
 
-      var hls = new Hls();
-      hls.loadSource(lesson?.link);
-      hls.attachMedia(video);
+    if (title) {
+      handleScrollToElement(title);
     }
 
-    scrollToVideo();
-  }, [lesson, lesson?.link]);
+    if (HLS_IS_SUPPORTED && lessonLink) {
+      const video = videoRef.current as HTMLMediaElement;
+
+      if (video) {
+        setVideo(video);
+        handleElementFormat(video, lessonLink);
+      }
+    }
+  }, [lessonLink]);
 
   useEffect(() => {
     if (currentTime.length > 0 && !isPlay) {
@@ -35,11 +59,12 @@ const LessonPage = () => {
     }
   }, [currentTime, isPlay]);
 
-  const getIsPlay = () => {
+  const handleVideoTimeUpdate = () => {
     if (video) {
       if (!video.paused) {
         video.addEventListener('play', () => {
-          const currentEl = currentTime.find(item => item.id === video.id);
+          const currentEl = currentTime.find(({ id }) => id === video.id);
+
           if (currentEl) {
             video.currentTime = currentEl.time;
           }
@@ -49,7 +74,7 @@ const LessonPage = () => {
         return;
       }
 
-      const currentEl = currentTime.find(item => item.id === video.id);
+      const currentEl = currentTime.find(({ id }) => id === video.id);
 
       if (!currentEl) {
         setCurrentTime([
@@ -57,9 +82,9 @@ const LessonPage = () => {
           { id: video.id, time: video.currentTime },
         ]);
       } else {
-        currentTime.forEach(item => {
-          if (item.id === video.id && video.currentTime > 0) {
-            return (item.time = video.currentTime);
+        currentTime.forEach(({ id, time }) => {
+          if (id === video.id && video.currentTime > 0) {
+            return (time = video.currentTime);
           }
         });
       }
@@ -67,34 +92,25 @@ const LessonPage = () => {
     }
   };
 
-  const scrollToVideo = () => {
-    const title = document.getElementById('lesson-title') as HTMLElement;
-    title?.scrollIntoView({ behavior: 'smooth' });
-  };
+  if (status === REJECTED) return <Error image={video_unavailable} />;
 
-  return (
-    <>
-      {lesson && (
-        <>
-          <TitleS id="lesson-title">Lesson {lesson?.order}</TitleS>
-          <TextS>{lesson?.title}</TextS>
-          <ImageContainerS onTimeUpdate={getIsPlay}>
-            {lesson?.link && lesson?.duration ? (
-              <video
-                id={`${lesson?.link}`}
-                width="100%"
-                height="100%"
-                controls
-              ></video>
-            ) : (
-              <img src={video_unavailable} alt="banner" />
-            )}
-          </ImageContainerS>
-          <ScrollTopButton />
-        </>
-      )}
-    </>
-  );
+  if (status === RESOLVED)
+    return (
+      <>
+        <TitleStyles ref={titleRef}>Lesson {lesson?.order}</TitleStyles>
+        <TextStyles>{lesson?.title}</TextStyles>
+        <ImageContainerStyles onTimeUpdate={handleVideoTimeUpdate}>
+          {lessonLink && lessonDuration ? (
+            <video ref={videoRef} width='100%' height='100%' controls />
+          ) : (
+            <img src={video_unavailable} alt='banner' />
+          )}
+        </ImageContainerStyles>
+        <ScrollTopButton />
+      </>
+    );
+
+  return <></>;
 };
 
 export default LessonPage;

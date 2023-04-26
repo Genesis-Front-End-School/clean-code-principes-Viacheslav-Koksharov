@@ -1,5 +1,5 @@
 interface ILessonItem {
-  id?: string;
+  id: string;
   duration?: number;
   link?: string;
   order?: number;

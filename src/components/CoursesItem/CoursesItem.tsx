@@ -1,91 +1,84 @@
-import Hls from 'hls.js';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-import { onHoverElement } from '../../helpers/hoverHelper';
-import { ICoursesItemComponentProps } from '../../interfaces/CoursesItem.interfaces';
+import { HLS_IS_SUPPORTED } from 'helpers/constants';
+import { handleElementFormat } from 'helpers/formatHelper';
+import { handleElementHover } from 'helpers/hoverHelper';
+import { ICoursesItemComponentProps } from 'interfaces/CoursesItem.interface';
 import {
-  ListItemS,
-  LinkItemS,
-  ImageContainerS,
-  TitleS,
-  TextS,
-  SkillsListS,
-  SkillTitleS,
-  SkillsItemS,
-} from './CoursesItem.styled';
+  ListItemStyles,
+  LinkItemStyles,
+  ImageContainerStyles,
+  TitleStyles,
+  TextStyles,
+  SkillsTitleStyles,
+  SkillsListStyles,
+  SkillsItemStyles,
+} from 'components/CoursesItem/CoursesItem.styled';
 
 const CoursesItem = ({ course }: ICoursesItemComponentProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const { id, previewImageLink, meta, title, lessonsCount, rating } = course;
   const { courseVideoPreview, skills } = meta;
+  const courseVideoLink = courseVideoPreview?.link;
+  const courseVideoDuration = courseVideoPreview?.duration;
 
   useEffect(() => {
-    if (
-      window.Hls.isSupported() &&
-      courseVideoPreview?.link &&
-      courseVideoPreview?.duration
-    ) {
-      const video = document.getElementById(
-        `id-${previewImageLink}-${title}`,
-      ) as HTMLMediaElement;
+    if (HLS_IS_SUPPORTED && courseVideoLink && courseVideoDuration) {
+      const video = videoRef.current as HTMLMediaElement;
 
-      var hls = new Hls();
-      hls.loadSource(courseVideoPreview.link);
-      hls.attachMedia(video);
-
-      video.setAttribute('poster', previewImageLink + '/cover.webp');
-      onHoverElement(video);
+      if (video) {
+        video.setAttribute('poster', previewImageLink + '/cover.webp');
+        handleElementFormat(video, courseVideoLink);
+        handleElementHover(video);
+      }
     }
-  }, [course, courseVideoPreview, previewImageLink, title]);
+  }, [course, courseVideoLink, courseVideoDuration, previewImageLink]);
 
   useEffect(() => {
-    const image = document.getElementById(`unavailable-${previewImageLink}`);
+    const image = imageRef.current;
 
     if (image) {
-      onHoverElement(image, `${previewImageLink + '/cover.webp'}`);
+      handleElementHover(image, `${previewImageLink + '/cover.webp'}`);
     }
   }, [previewImageLink]);
 
   return (
-    <ListItemS key={id}>
-      <LinkItemS to={`/courses/${id}`}>
-        <ImageContainerS>
-          {courseVideoPreview?.link && courseVideoPreview?.duration ? (
-            <video
-              id={`id-${previewImageLink}-${title}`}
-              width="100%"
-              height="100%"
-              muted
-            ></video>
+    <ListItemStyles key={id}>
+      <LinkItemStyles to={`/courses/${id}`}>
+        <ImageContainerStyles>
+          {courseVideoLink && courseVideoDuration ? (
+            <video ref={videoRef} width='100%' height='100%' muted />
           ) : (
             <img
-              id={`unavailable-${previewImageLink}`}
+              ref={imageRef}
               src={previewImageLink + '/cover.webp'}
-              alt="banner"
+              alt='banner'
             />
           )}
-        </ImageContainerS>
-        <TitleS>{title}</TitleS>
-        <TextS>Available lessons: {lessonsCount}</TextS>
-        <SkillTitleS>Skills:</SkillTitleS>
-        <SkillsListS>
+        </ImageContainerStyles>
+        <TitleStyles>{title}</TitleStyles>
+        <TextStyles>Available lessons: {lessonsCount}</TextStyles>
+        <SkillsTitleStyles>Skills:</SkillsTitleStyles>
+        <SkillsListStyles>
           {skills?.map(skill => (
-            <SkillsItemS key={skill}>{skill} </SkillsItemS>
+            <SkillsItemStyles key={skill}>{skill}</SkillsItemStyles>
           ))}
-        </SkillsListS>
-        <TextS accent>
+        </SkillsListStyles>
+        <TextStyles accent>
           Rating: {rating}
-          <Typography component="legend" />
+          <Typography component='legend' />
           <Rating
-            name="read-only"
+            name='read-only'
             value={rating}
             precision={0.1}
-            size="small"
+            size='small'
             readOnly
           />
-        </TextS>
-      </LinkItemS>
-    </ListItemS>
+        </TextStyles>
+      </LinkItemStyles>
+    </ListItemStyles>
   );
 };
 

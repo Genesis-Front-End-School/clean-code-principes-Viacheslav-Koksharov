@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { secondary } from '../../utils/breakpoints';
+import { secondary } from 'utils/breakpoints';
 
 const { desktop } = secondary;
 
-const ContainerS = styled.div`
+const ContainerStyles = styled.div`
   position: relative;
   height: 100vh;
 `;
 
-const SpinnerS = styled.div`
+const SpinnerStyles = styled.div`
   position: absolute;
   top: 20%;
   left: 50%;
@@ -21,4 +21,4 @@ const SpinnerS = styled.div`
   }
 `;
 
-export { ContainerS, SpinnerS };
+export { ContainerStyles, SpinnerStyles };

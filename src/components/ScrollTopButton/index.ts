@@ -1,1 +1,1 @@
-export { default } from './ScrollTopButton';
+export { default } from 'components/ScrollTopButton/ScrollTopButton';

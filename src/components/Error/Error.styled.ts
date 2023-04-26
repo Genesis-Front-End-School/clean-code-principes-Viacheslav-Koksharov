@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { secondary } from '../../utils/breakpoints';
-import { colors } from '../../utils/colors';
+import { secondary } from 'utils/breakpoints';
+import { colors } from 'utils/colors';
 
 const { desktop } = secondary;
 const { accent } = colors;
@@ -9,7 +9,7 @@ interface Props {
   route?: boolean;
 }
 
-const ContainerS = styled.div`
+const ContainerStyles = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@ const ContainerS = styled.div`
   }
 `;
 
-const ImageContainerS = styled.div`
+const ImageContainerStyles = styled.div`
   max-width: ${(props: Props) => (props.route ? '100%' : '400px')};
   margin: 50px auto;
 
@@ -29,7 +29,7 @@ const ImageContainerS = styled.div`
   }
 `;
 
-const TitleS = styled.h1`
+const TitleStyles = styled.h1`
   text-align: center;
   font-size: 18px;
   color: ${accent};
@@ -39,4 +39,4 @@ const TitleS = styled.h1`
   }
 `;
 
-export { ContainerS, ImageContainerS, TitleS };
+export { ContainerStyles, ImageContainerStyles, TitleStyles };

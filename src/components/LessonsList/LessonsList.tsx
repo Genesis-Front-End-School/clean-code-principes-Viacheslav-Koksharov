@@ -1,37 +1,52 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { ListS, ListItemS, LinkItemS } from './Lesson.styled';
-import { LessonContext } from '../../context/LessonContextProvider';
+import { toast } from 'react-toastify';
+import { LessonContext } from 'context/LessonContextProvider';
+import {
+  ListStyles,
+  ListItemStyles,
+  LinkItemStyles,
+} from 'components/LessonsList/Lesson.styled';
 
-const LessonsList = ({ oneCourse }) => {
+const LessonsList = ({ lessons }) => {
   const { setLesson } = useContext(LessonContext);
-  const { lessons } = oneCourse;
+  const sortedLessons = useMemo(
+    () => [...lessons].sort((a, b) => a.order - b.order),
+    [lessons],
+  );
 
-  const showVideo = (e, lesson) => {
+  const handleNotification = ({ order, title }) =>
+    toast(`The video for the lesson ${order} "${title}" is locked!`);
+
+  const handleVideoPlayback = (e, lesson) => {
+    e.preventDefault();
+
     if (lesson?.status === 'locked') {
       setLesson(null);
-      alert('This video is locked');
+      handleNotification(lesson);
     } else {
-      e.preventDefault();
       setLesson(lesson);
     }
   };
 
   return (
     <>
-      <ListS>
-        {lessons?.map(lesson => {
+      <ListStyles>
+        {sortedLessons?.map(lesson => {
           return (
-            <ListItemS key={lesson.order} onClick={e => showVideo(e, lesson)}>
-              <LinkItemS to={`lesson`}>
+            <ListItemStyles
+              key={lesson.id}
+              onClick={e => handleVideoPlayback(e, lesson)}
+            >
+              <LinkItemStyles to={'lesson'}>
                 <b>Lesson {lesson.order}.</b>
                 <br />
                 {lesson.title}
-              </LinkItemS>
-            </ListItemS>
+              </LinkItemStyles>
+            </ListItemStyles>
           );
         })}
-      </ListS>
+      </ListStyles>
       <Outlet />
     </>
   );

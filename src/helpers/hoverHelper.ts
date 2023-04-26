@@ -1,7 +1,7 @@
-import video_unavailable from '../images/video_unavailable.png';
+import video_unavailable from 'images/video_unavailable.png';
 
-const onHoverElement = (element, sourceAttr = '') => {
-  let start;
+const handleElementHover = (element, sourceLink = '') => {
+  let start: NodeJS.Timeout;
 
   const startPreview = () => {
     if (element.play && typeof element.play === 'function') {
@@ -15,7 +15,7 @@ const onHoverElement = (element, sourceAttr = '') => {
     if (element.pause && typeof element.pause === 'function') {
       element.pause();
     } else {
-      element.src = sourceAttr;
+      element.src = sourceLink;
     }
   };
 
@@ -29,4 +29,4 @@ const onHoverElement = (element, sourceAttr = '') => {
   });
 };
 
-export { onHoverElement };
+export { handleElementHover };
