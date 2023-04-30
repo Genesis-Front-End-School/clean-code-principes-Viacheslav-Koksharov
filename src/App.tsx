@@ -4,14 +4,12 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Container from 'components/Container';
-import Loader from 'components/Loader';
 import Error from 'components/Error';
 import site_unavailable from 'images/site_unavailable.jpg';
 import route_unavailable from 'images/route_unavailable.jpg';
-import { getToken } from 'services/api';
-import { ErrorContext } from 'context/ErrorContextProvider';
+import useFetch from 'hooks/useFetch';
+import { TOKEN_URL } from 'helpers/constants';
 import { TokenContext } from 'context/TokenContextProvider';
-import { colors } from 'utils/colors';
 
 const Homepage = lazy(
   () => import('views/HomePage' /* webpackChunkName: 'HomePage' */),
@@ -24,50 +22,39 @@ const LessonPage = lazy(
 );
 
 const App: React.FC = () => {
-  const { error, setError } = useContext(ErrorContext);
-  const { setToken } = useContext(TokenContext);
-  const { main } = colors;
+  const { token, setToken } = useContext(TokenContext);
+  const { response, error } = useFetch(TOKEN_URL);
 
   useEffect(() => {
-    getToken().then(response => {
-      if (response.message) {
-        setError(response.message);
-      } else {
-        setToken(response);
-      }
-    });
-  }, [setError, setToken]);
-
-  if (error) {
-    return <Error error={error} image={site_unavailable} />;
-  }
+    if (response && response['token']) {
+      setToken(response['token']);
+    }
+  }, [response, setToken]);
 
   return (
-    <Container>
-      <Suspense
-        fallback={
-          <Loader
-            ariaLabel={'ThreeDots'}
-            height={100}
-            width={100}
-            radius={5}
-            color={main}
-          />
-        }
-      >
-        <Routes>
-          <Route path='/' element={<Homepage />} />
-          <Route path='/courses/:id' element={<CoursePage />}>
-            <Route path='lesson' element={<LessonPage />} />
-          </Route>
-          <Route
-            path='*'
-            element={<Error error={error} image={route_unavailable} route />}
-          />
-        </Routes>
-      </Suspense>
-      <ToastContainer />
-    </Container>
+    <>
+      {token && (
+        <Container>
+          <Suspense>
+            <Routes>
+              <Route path='/' element={<Homepage />} />
+              <Route path='/courses/:id' element={<CoursePage />}>
+                <Route path='lesson' element={<LessonPage />} />
+              </Route>
+              <Route
+                path='*'
+                element={
+                  <Error error={error} image={route_unavailable} route />
+                }
+              />
+            </Routes>
+          </Suspense>
+          <ToastContainer />
+        </Container>
+      )}
+
+      {error && <Error error={error} image={site_unavailable} />}
+    </>
   );
 };
 
