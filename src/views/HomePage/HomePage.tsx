@@ -11,7 +11,7 @@ import { colors } from 'utils/colors';
 import { TitleStyles } from 'views/HomePage/HomePage.styled';
 
 const HomePage = () => {
-  const listRef = useRef<HTMLDListElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const { token } = useContext(TokenContext);
   const { response, isLoading, error } = useFetch(COURSES_URL, token);
   const [courses, setCourses] = useState(null);

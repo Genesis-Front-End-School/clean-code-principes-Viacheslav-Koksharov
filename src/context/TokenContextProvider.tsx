@@ -10,7 +10,7 @@ const TokenContext = createContext<ITokenContext>({
 });
 
 const TokenProvider = ({ children }: ITokenContextProps) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const sampleTokenContext: ITokenContext = {
     token,

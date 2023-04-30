@@ -5,7 +5,7 @@ const handleScrollToTop = () => {
   });
 };
 
-const handleScrollToElement = element => {
+const handleScrollToElement = (element: HTMLHeadingElement) => {
   element?.scrollIntoView({ behavior: 'smooth' });
 };
 

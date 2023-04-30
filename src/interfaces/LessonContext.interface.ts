@@ -1,8 +1,8 @@
-import { ILessonItem } from 'interfaces/CoursesItem.interface';
+import { ILessonItem } from 'interfaces/LessonsItem.interface';
 
 interface ILessonContext {
   lesson: ILessonItem | undefined;
-  setLesson: (oneCourse) => void;
+  setLesson: (lesson: ILessonItem | undefined) => void;
 }
 
 interface ILessonContextProps {
