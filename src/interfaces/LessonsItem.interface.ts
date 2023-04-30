@@ -9,7 +9,9 @@ interface ILessonItem {
   title?: string;
   type?: string;
 }
+
 interface ILessonsItemComponentProps {
   lesson: ILessonItem;
 }
+
 export type { ILessonsItemComponentProps, ILessonItem };

@@ -2,9 +2,9 @@ import {
   ContainerStyles,
   ImageContainerStyles,
   TitleStyles,
-} from './Error.styled';
+} from 'components/Error/Error.styled';
 
-const Error = ({ error = null, image = '', route = false }) => (
+const Error = ({ error, image = '', route = false }) => (
   <ContainerStyles>
     <ImageContainerStyles route={route}>
       <img src={image} alt='the site is unavailable'></img>

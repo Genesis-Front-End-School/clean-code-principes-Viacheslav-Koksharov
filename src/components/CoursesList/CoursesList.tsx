@@ -1,50 +1,44 @@
 import { useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import CoursesItem from 'components/CoursesItem';
+import { handleScrollToTop } from 'helpers/scrollHelper';
 import usePagination from 'hooks/usePagination';
 import {
   ListStyles,
   PaginationStyles,
 } from 'components/CoursesList/CoursesList.styled';
 
-const CoursesList = ({ currentCourses }) => {
+const CoursesList = ({ allCourses }) => {
   const [page, setPage] = useState(1);
-  const { courses } = currentCourses;
+  const { courses } = allCourses;
   const PER_PAGE = 10;
-  const count = Math.ceil(courses.length / PER_PAGE);
+  const COUNT = Math.ceil(courses.length / PER_PAGE);
   const pagination = usePagination(courses, PER_PAGE);
 
   useEffect(() => {
     pagination.jumpToPage(page);
-    scrollToTop();
+    handleScrollToTop();
   }, [page, pagination]);
 
-  const handleChange = (e, pageNumber) => {
+  const handlePageChange = (e, pageNumber) => {
     setPage(pageNumber);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   };
 
   return (
     <>
       <ListStyles>
         {pagination.getItemsToPage().map(course => (
-          <CoursesItem key={course.id} course={course}></CoursesItem>
+          <CoursesItem key={course.id} course={course} />
         ))}
       </ListStyles>
       <Stack spacing={2}>
         <PaginationStyles
-          count={count}
+          count={COUNT}
           size='large'
           page={page}
           variant='outlined'
           shape='rounded'
-          onChange={handleChange}
+          onChange={handlePageChange}
         />
       </Stack>
     </>

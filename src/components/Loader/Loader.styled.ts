@@ -22,4 +22,3 @@ const SpinnerStyles = styled.div`
 `;
 
 export { ContainerStyles, SpinnerStyles };
-

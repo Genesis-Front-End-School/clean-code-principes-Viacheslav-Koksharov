@@ -8,42 +8,41 @@ const getToken = async () => {
       `${BASE_URL}/auth/anonymous?platform=subscriptions`,
     );
 
-    const token = await response.data;
-    localStorage.setItem('token', JSON.stringify(token));
+    const token = await response.data.token;
+    localStorage.setItem('token', token);
+
     return token;
   } catch (error) {
     return error;
   }
 };
 
-const getCourses = async token => {
+const getCourses = async (token: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/core/preview-courses`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response.data;
   } catch (error) {
     return error;
   }
 };
 
-const getCourseByID = async courseId => {
+const getCourseByID = async (courseId: string, token: string) => {
   try {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const currentToken = JSON.parse(token);
-      const response = await axios.get(
-        `${BASE_URL}/core/preview-courses/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${currentToken.token}`,
-          },
+    const response = await axios.get(
+      `${BASE_URL}/core/preview-courses/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
-      return response.data;
-    }
+      },
+    );
+
+    return response.data;
   } catch (error) {
     return error;
   }

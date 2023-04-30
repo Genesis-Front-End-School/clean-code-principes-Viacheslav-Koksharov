@@ -1,7 +1,7 @@
-import video_unavailable from '../images/video_unavailable.png';
+import video_unavailable from 'images/video_unavailable.png';
 
 const handleElementHover = (element, sourceLink = '') => {
-  let start;
+  let start: NodeJS.Timeout;
 
   const startPreview = () => {
     if (element.play && typeof element.play === 'function') {
