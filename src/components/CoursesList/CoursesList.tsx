@@ -8,11 +8,10 @@ import {
   PaginationStyles,
 } from 'components/CoursesList/CoursesList.styled';
 
-const CoursesList = ({ allCourses }) => {
+const CoursesList = ({ courses, currentRef }) => {
   const [page, setPage] = useState(1);
-  const { courses } = allCourses;
   const PER_PAGE = 10;
-  const COUNT = Math.ceil(courses.length / PER_PAGE);
+  const count = Math.ceil(courses.length / PER_PAGE);
   const pagination = usePagination(courses, PER_PAGE);
 
   useEffect(() => {
@@ -26,20 +25,22 @@ const CoursesList = ({ allCourses }) => {
 
   return (
     <>
-      <ListStyles>
+      <ListStyles ref={currentRef}>
         {pagination.getItemsToPage().map(course => (
           <CoursesItem key={course.id} course={course} />
         ))}
       </ListStyles>
       <Stack spacing={2}>
-        <PaginationStyles
-          count={COUNT}
-          size='large'
-          page={page}
-          variant='outlined'
-          shape='rounded'
-          onChange={handlePageChange}
-        />
+        {page && (
+          <PaginationStyles
+            count={count}
+            size='large'
+            page={page}
+            variant='outlined'
+            shape='rounded'
+            onChange={handlePageChange}
+          />
+        )}
       </Stack>
     </>
   );

@@ -18,9 +18,9 @@ const LessonPage = () => {
     undefined,
   );
   const [video, setVideo] = useState<HTMLMediaElement>();
-  const [currentTime, setCurrentTime] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('time')!) ?? [];
-  });
+  const [currentTime, setCurrentTime] = useState(
+    () => JSON.parse(window.localStorage.getItem('time')!) ?? [],
+  );
   const [isPlay, setIsPlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);

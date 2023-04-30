@@ -32,20 +32,18 @@ const LessonsList = ({ lessons }) => {
   return (
     <>
       <ListStyles>
-        {sortedLessons?.map(lesson => {
-          return (
-            <ListItemStyles
-              key={lesson.id}
-              onClick={e => handleVideoPlayback(e, lesson)}
-            >
-              <LinkItemStyles to={'lesson'}>
-                <b>Lesson {lesson.order}.</b>
-                <br />
-                {lesson.title}
-              </LinkItemStyles>
-            </ListItemStyles>
-          );
-        })}
+        {sortedLessons?.map(lesson => (
+          <ListItemStyles
+            key={lesson.id}
+            onClick={e => handleVideoPlayback(e, lesson)}
+          >
+            <LinkItemStyles to={'lesson'}>
+              <b>Lesson {lesson.order}.</b>
+              <br />
+              {lesson.title}
+            </LinkItemStyles>
+          </ListItemStyles>
+        ))}
       </ListStyles>
       <Outlet />
     </>
