@@ -3,12 +3,13 @@ import Stack from '@mui/material/Stack';
 import CoursesItem from 'components/CoursesItem';
 import { handleScrollToTop } from 'helpers/scrollHelper';
 import usePagination from 'hooks/usePagination';
+import { ICoursesListProps } from 'interfaces/CoursesItem.interface';
 import {
   ListStyles,
   PaginationStyles,
 } from 'components/CoursesList/CoursesList.styled';
 
-const CoursesList = ({ courses, currentRef }) => {
+const CoursesList = ({ courses, currentRef }: ICoursesListProps) => {
   const [page, setPage] = useState(1);
   const PER_PAGE = 10;
   const count = Math.ceil(courses.length / PER_PAGE);
@@ -19,7 +20,10 @@ const CoursesList = ({ courses, currentRef }) => {
     handleScrollToTop();
   }, [page, pagination]);
 
-  const handlePageChange = (e, pageNumber) => {
+  const handlePageChange = (
+    _: React.ChangeEvent<unknown>,
+    pageNumber: number,
+  ) => {
     setPage(pageNumber);
   };
 

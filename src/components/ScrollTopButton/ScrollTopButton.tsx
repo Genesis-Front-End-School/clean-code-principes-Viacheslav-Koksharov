@@ -7,7 +7,7 @@ const ScrollTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleVisibility = () => {
+    const handleVisibility = (): void => {
       const scroll = document.documentElement.scrollTop;
 
       if (scroll > 300) {

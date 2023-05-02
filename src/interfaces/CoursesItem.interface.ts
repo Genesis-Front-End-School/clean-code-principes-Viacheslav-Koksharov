@@ -1,21 +1,11 @@
-interface ILessonItem {
-  id: string;
-  duration?: number;
-  link?: string;
-  order?: number;
-  meta?: null;
-  previewImageLink?: string;
-  status?: string;
-  title?: string;
-  type?: string;
-}
+import { ILessonItem } from 'interfaces/LessonsItem.interface'
 
-interface ICoursesItem {
+interface ICourseItem {
   id: string;
   title: string;
-  tags: String[];
+  tags?: String[];
   launchDate: string;
-  lessons?: ILessonItem[];
+  lessons: ILessonItem[];
   status: string;
   description: string;
   duration: string;
@@ -34,8 +24,13 @@ interface ICoursesItem {
   };
 }
 
-interface ICoursesItemComponentProps {
-  course: ICoursesItem;
+interface ICourseProps {
+  course: ICourseItem;
 }
 
-export type { ICoursesItemComponentProps, ICoursesItem, ILessonItem };
+interface ICoursesListProps {
+  courses: ICourseItem[];
+  currentRef: React.RefObject<HTMLUListElement> | null;
+}
+
+export type { ICourseItem, ICourseProps, ICoursesListProps };

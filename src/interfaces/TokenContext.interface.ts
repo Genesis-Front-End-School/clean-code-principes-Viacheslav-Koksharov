@@ -1,6 +1,6 @@
 interface ITokenContext {
   token: string | null;
-  setToken: (token) => void;
+  setToken: (token: string | null) => void;
 }
 
 interface ITokenContextProps {

@@ -9,7 +9,7 @@ import { HLS_IS_SUPPORTED, COURSES_URL } from 'helpers/constants';
 import { handleElementFormat } from 'helpers/formatHelper';
 import { TokenContext } from 'context/TokenContextProvider';
 import { LessonProvider } from 'context/LessonContextProvider';
-import { ICoursesItem } from 'interfaces/CoursesItem.interface';
+import { ICourseItem } from 'interfaces/CoursesItem.interface';
 import { colors } from 'utils/colors';
 import {
   TitleStyles,
@@ -22,7 +22,7 @@ import {
 const CoursePage = () => {
   const { token } = useContext(TokenContext);
   const { response, isLoading, error } = useFetch(COURSES_URL, token);
-  const [course, setCourse] = useState<ICoursesItem>();
+  const [course, setCourse] = useState<ICourseItem>();
   const videoRef = useRef<HTMLVideoElement>(null);
   const firstLesson = course?.lessons![0];
   const firstLessonLink = firstLesson?.link;
@@ -37,7 +37,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     if (HLS_IS_SUPPORTED && firstLessonLink) {
-      const video = videoRef.current as HTMLMediaElement;
+      const video = videoRef.current;
 
       if (video) {
         handleElementFormat(video, firstLessonLink);

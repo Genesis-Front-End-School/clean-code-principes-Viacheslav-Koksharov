@@ -1,6 +1,6 @@
 import video_unavailable from 'images/video_unavailable.png';
 
-const handleElementHover = (element, sourceLink = '') => {
+const handleElementHover = (element: HTMLVideoElement, sourceLink = '') => {
   let start: NodeJS.Timeout;
 
   const startPreview = () => {

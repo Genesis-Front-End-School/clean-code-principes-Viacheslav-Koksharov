@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { HLS_IS_SUPPORTED } from 'helpers/constants';
 import { handleElementFormat } from 'helpers/formatHelper';
 import { handleElementHover } from 'helpers/hoverHelper';
-import { ICoursesItemComponentProps } from 'interfaces/CoursesItem.interface';
+import { ICourseProps } from 'interfaces/CoursesItem.interface';
 import {
   ListItemStyles,
   LinkItemStyles,
@@ -16,9 +16,9 @@ import {
   SkillsItemStyles,
 } from 'components/CoursesItem/CoursesItem.styled';
 
-const CoursesItem = ({ course }: ICoursesItemComponentProps) => {
+const CoursesItem = ({ course }: ICourseProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const imageRef = useRef(null);
   const { id, previewImageLink, meta, title, lessonsCount, rating } = course;
   const { courseVideoPreview, skills } = meta;
   const courseVideoLink = courseVideoPreview?.link;
@@ -26,7 +26,7 @@ const CoursesItem = ({ course }: ICoursesItemComponentProps) => {
 
   useEffect(() => {
     if (HLS_IS_SUPPORTED && courseVideoLink && courseVideoDuration) {
-      const video = videoRef.current as HTMLMediaElement;
+      const video = videoRef.current;
 
       if (video) {
         video.setAttribute('poster', previewImageLink + '/cover.webp');

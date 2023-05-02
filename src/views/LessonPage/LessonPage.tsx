@@ -40,7 +40,7 @@ const LessonPage = () => {
     }
 
     if (HLS_IS_SUPPORTED && lessonLink) {
-      const video = videoRef.current as HTMLMediaElement;
+      const video = videoRef.current;
 
       if (video) {
         setVideo(video);
@@ -57,7 +57,7 @@ const LessonPage = () => {
 
   const handleVideoTimeUpdate = () => {
     if (video) {
-      if (!video.paused) {
+      if (video.paused) {
         video.addEventListener('play', () => {
           const currentEl = currentTime.find(({ id }) => id === video.id);
 

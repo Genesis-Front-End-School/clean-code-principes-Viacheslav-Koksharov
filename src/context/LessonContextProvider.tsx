@@ -1,5 +1,5 @@
 import { useState, createContext } from 'react';
-import { ILessonItem } from 'interfaces/CoursesItem.interface';
+import { ILessonItem } from 'interfaces/LessonsItem.interface';
 import {
   ILessonContext,
   ILessonContextProps,
