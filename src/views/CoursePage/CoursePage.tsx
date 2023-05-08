@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import LessonsList from 'components/LessonsList';
 import Loader from 'components/Loader';
 import Error from 'components/Error';
@@ -9,7 +9,6 @@ import { HLS_IS_SUPPORTED, COURSES_URL } from 'helpers/constants';
 import { handleElementFormat } from 'helpers/formatHelper';
 import { TokenContext } from 'context/TokenContextProvider';
 import { LessonProvider } from 'context/LessonContextProvider';
-import { ICourseItem } from 'interfaces/CoursesItem.interface';
 import { colors } from 'utils/colors';
 import {
   TitleStyles,
@@ -22,18 +21,11 @@ import {
 const CoursePage = () => {
   const { token } = useContext(TokenContext);
   const { response, isLoading, error } = useFetch(COURSES_URL, token);
-  const [course, setCourse] = useState<ICourseItem>();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const firstLesson = course?.lessons![0];
+  const firstLesson = response?.lessons![0];
   const firstLessonLink = firstLesson?.link;
   const firstLessonDuration = firstLesson?.duration;
   const { main } = colors;
-
-  useEffect(() => {
-    if (response) {
-      setCourse(response);
-    }
-  }, [response]);
 
   useEffect(() => {
     if (HLS_IS_SUPPORTED && firstLessonLink) {
@@ -57,9 +49,9 @@ const CoursePage = () => {
         />
       )}
 
-      {course && (
+      {response && (
         <LessonProvider>
-          <TitleStyles>Course: {course?.title}</TitleStyles>
+          <TitleStyles>Course: {response?.title}</TitleStyles>
           <ImageContainerStyles>
             {firstLessonLink && firstLessonDuration ? (
               <video ref={videoRef} width='100%' height='100%' controls />
@@ -67,13 +59,13 @@ const CoursePage = () => {
               <img src={video_unavailable} alt='video unavailable' />
             )}
           </ImageContainerStyles>
-          <TextStyles>Description: {course?.description}</TextStyles>
+          <TextStyles>Description: {response?.description}</TextStyles>
           <SkillsListStyles>
-            {course?.meta?.skills?.map(skill => (
+            {response?.meta?.skills?.map(skill => (
               <SkillItemStyles key={skill}>#{skill}</SkillItemStyles>
             ))}
           </SkillsListStyles>
-          <LessonsList lessons={course?.lessons} />
+          <LessonsList lessons={response?.lessons} />
         </LessonProvider>
       )}
 

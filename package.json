@@ -8,8 +8,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.13",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.14",
@@ -44,6 +43,7 @@
     "pre-commit": "lint-staged",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -59,11 +59,18 @@
     ]
   },
   "devDependencies": {
+    "@cfaester/enzyme-adapter-react-18": "^0.7.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/enzyme": "^3.10.13",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
+    "enzyme": "^3.11.0",
     "eslint": "^8.36.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
+    "jest": "^29.5.0",
+    "jest-fetch-mock": "^3.0.3",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
     "video.js": "^8.0.4"
@@ -83,6 +90,17 @@
     "./src/*.{js,jsx,ts,tsx}": [
       "npm run format",
       "npm run lint"
+    ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/src/index.tsx?",
+      "/src/(.*)/index.ts",
+      "/src/interfaces"
     ]
   }
 }

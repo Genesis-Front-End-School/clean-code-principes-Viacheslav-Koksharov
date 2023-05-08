@@ -15,7 +15,7 @@ interface ICourseItem {
   rating: number;
   meta: {
     slug: string;
-    skills: [];
+    skills: string[];
     courseVideoPreview: {
       link: string;
       duration: number;
