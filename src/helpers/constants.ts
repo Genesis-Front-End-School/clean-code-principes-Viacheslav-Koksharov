@@ -1,5 +1,6 @@
 // hls.js
-const HLS_IS_SUPPORTED = window.Hls.isSupported();
+import Hls from "hls.js";
+const HLS_IS_SUPPORTED = Hls.isSupported();
 
 // API
 const BASE_URL = 'https://api.wisey.app/api/v1';
