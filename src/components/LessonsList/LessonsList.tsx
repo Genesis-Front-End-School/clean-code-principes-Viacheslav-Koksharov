@@ -10,7 +10,7 @@ import {
   ListStyles,
   ListItemStyles,
   LinkItemStyles,
-} from 'components/LessonsList/Lesson.styled';
+} from 'components/LessonsList/LessonList.styled';
 
 const LessonsList = ({ lessons }: ILessonsItemComponentProps) => {
   const { setLesson } = useContext(LessonContext);
@@ -41,6 +41,7 @@ const LessonsList = ({ lessons }: ILessonsItemComponentProps) => {
         {sortedLessons?.map(lesson => (
           <ListItemStyles
             key={lesson.id}
+            theme
             onClick={e => handleVideoPlayback(e, lesson)}
           >
             <LinkItemStyles to={'lesson'}>

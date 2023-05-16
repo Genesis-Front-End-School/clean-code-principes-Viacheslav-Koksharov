@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { colors } from 'utils/colors';
 import { secondary } from 'utils/breakpoints';
 
-const { decor, accent } = colors;
+const { accent } = colors;
 const { desktop } = secondary;
 
 const ListStyles = styled.ul`
@@ -24,7 +24,7 @@ const ListItemStyles = styled.li`
   padding: 10px;
   text-align: center;
   font-size: 12px;
-  color: ${decor};
+  color: ${({ theme }) => theme.text};
   border: 2px solid ${accent};
   border-radius: 5px;
 

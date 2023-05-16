@@ -1,8 +1,8 @@
-import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
-import { waitFor } from '@testing-library/react';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import HomePage from 'views/HomePage/HomePage';
+import React from 'react';
+import { waitFor } from '@testing-library/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 

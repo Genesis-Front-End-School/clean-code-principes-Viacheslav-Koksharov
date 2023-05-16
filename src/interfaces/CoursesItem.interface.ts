@@ -1,4 +1,4 @@
-import { ILessonItem } from 'interfaces/LessonsItem.interface'
+import { ILessonItem } from 'interfaces/LessonsItem.interface';
 
 interface ICourseItem {
   id: string;

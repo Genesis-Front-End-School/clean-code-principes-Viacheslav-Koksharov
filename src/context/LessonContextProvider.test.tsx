@@ -30,10 +30,7 @@ describe('<LessonProvider />', () => {
         <h3>Lesson {lesson?.order}</h3>
         <p data-testid='LessonTitle'>{lesson?.title}</p>
         <div>
-          <video
-            data-testid='LessonVideo'
-            src={lesson?.link}
-          />
+          <video data-testid='LessonVideo' src={lesson?.link} />
         </div>
       </div>
     );

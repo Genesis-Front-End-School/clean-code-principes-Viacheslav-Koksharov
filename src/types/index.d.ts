@@ -7,3 +7,9 @@ declare global {
     };
   }
 }
+
+declare module '@mui/material/styles' {
+  interface ThemeOptions {
+    accent?: string;
+  }
+}

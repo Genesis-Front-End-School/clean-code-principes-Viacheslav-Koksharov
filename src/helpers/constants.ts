@@ -1,5 +1,5 @@
 // hls.js
-import Hls from "hls.js";
+import Hls from 'hls.js';
 const HLS_IS_SUPPORTED = Hls.isSupported();
 
 // API
