@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from 'utils/colors';
 
-const { main, accent } = colors;
+const { accent } = colors;
 
 const TitleStyles = styled.h1`
   margin: 0 0 20px;
@@ -34,7 +34,7 @@ const SkillItemStyles = styled.li`
   margin: 0 10px 0 0;
   text-align: center;
   font-size: 16px;
-  color: ${main};
+  color: ${({ theme }) => theme.accent};
 `;
 
 export {

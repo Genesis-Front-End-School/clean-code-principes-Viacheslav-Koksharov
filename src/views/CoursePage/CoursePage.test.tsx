@@ -9,4 +9,16 @@ describe('HomePage', () => {
     const wrapper = shallow(<CoursePage />);
     expect(wrapper.exists()).toBe(true);
   });
+  // it('should render `This list is empty` inside a Paragraph component if items is an empty array', () => {
+  //   const skills = [
+  //     'Aligning your goals with your motives',
+  //     'Overcoming decision paralysis',
+  //     'Reframing negative self-talk',
+  //     'Gaining clarity',
+  //     'Challenging yourself',
+  //   ];
+  //   const wrapper = shallow(<CoursePage skills={skills} />);
+  //   const paragraph = wrapper.find(Paragraph);
+  //   expect(paragraph.props().children).toEqual('This list is empty');
+  // });
 });

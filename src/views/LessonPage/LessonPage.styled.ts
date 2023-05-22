@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-import { colors } from 'utils/colors';
-
-const { main } = colors;
 
 const ImageContainerStyles = styled.div`
   width: 100%;
@@ -18,7 +15,7 @@ const TitleStyles = styled.h3`
 const TextStyles = styled.p`
   margin: 0 0 15px 0;
   text-align: center;
-  color: ${main};
+  color: ${({ theme }) => theme.accent};
   font-size: 18px;
   font-weight: 600;
 `;

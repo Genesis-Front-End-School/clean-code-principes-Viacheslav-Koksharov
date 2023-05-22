@@ -40,6 +40,7 @@ const CoursesList = ({ courses, currentRef }: ICoursesListProps) => {
             count={count}
             size='large'
             page={page}
+            color='primary'
             variant='outlined'
             shape='rounded'
             onChange={handlePageChange}

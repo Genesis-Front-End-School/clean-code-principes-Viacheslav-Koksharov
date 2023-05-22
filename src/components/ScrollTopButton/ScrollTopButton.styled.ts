@@ -7,15 +7,16 @@ const { desktop } = secondary;
 
 const ButtonStyles = styled.div`
   position: fixed;
-  right: 30px;
   bottom: 50px;
+  right: 30px;
+  display: flex;
   color: ${accent};
   font-size: 3rem;
   cursor: pointer;
   z-index: 1;
 
   @media screen and (min-width: ${desktop}px) {
-    right: 50px;
+    right: 30px;
   }
 `;
 

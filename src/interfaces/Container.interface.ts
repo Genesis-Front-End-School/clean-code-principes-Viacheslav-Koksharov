@@ -1,5 +1,5 @@
 interface IContainerProps {
-    children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-export type { IContainerProps }
+export type { IContainerProps };

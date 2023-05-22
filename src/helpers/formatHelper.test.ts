@@ -1,7 +1,7 @@
 import Hls from 'hls.js';
 import { handleElementFormat } from 'helpers/formatHelper';
 
-jest.mock("hls.js");
+jest.mock('hls.js');
 const mockedHls = Hls as jest.Mocked<typeof Hls>;
 
 describe('handleElementFormat', () => {
