@@ -10,9 +10,8 @@ import Error from 'components/Error';
 import Toggle from 'components/Toggler';
 import site_unavailable from 'images/site_unavailable.jpg';
 import route_unavailable from 'images/route_unavailable.jpg';
-import useMode from 'hooks/useMode';
-import useFetch from 'hooks/useFetch';
-import { lightTheme, darkTheme,GlobalStyles} from 'helpers/themes';
+import { useMode, useFetch } from 'petrovich-custom-hooks';
+import { lightTheme, darkTheme, GlobalStyles } from 'helpers/themes';
 import { TOKEN_URL } from 'helpers/constants';
 import { TokenContext } from 'context/TokenContextProvider';
 
@@ -40,11 +39,11 @@ const App: React.FC = () => {
     }
   }, [response, setToken]);
 
-  if (token)
-    return (
-      <ThemeProvider theme={defaultTheme}>
-        <ThemeComposerProvider theme={themeMode}>
-          <>
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <ThemeComposerProvider theme={themeMode}>
+        <>
+          {token && (
             <Container>
               <GlobalStyles />
               <Toggle theme={theme} toggleTheme={toggleTheme} />
@@ -64,14 +63,12 @@ const App: React.FC = () => {
               </Suspense>
               <ToastContainer />
             </Container>
-          </>
-        </ThemeComposerProvider>
-      </ThemeProvider>
-    );
-
-  if (error) return <Error error={error} image={site_unavailable} />;
-
-  return <></>;
+          )}
+          {error && <Error error={error} image={site_unavailable} />};
+        </>
+      </ThemeComposerProvider>
+    </ThemeProvider>
+  );
 };
 
 export default App;

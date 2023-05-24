@@ -4,7 +4,7 @@ import Loader from 'components/Loader';
 import Error from 'components/Error';
 import site_unavailable from 'images/site_unavailable.jpg';
 import video_unavailable from 'images/video_unavailable.png';
-import useFetch from 'hooks/useFetch';
+import {useFetch} from 'petrovich-custom-hooks';
 import { HLS_IS_SUPPORTED, COURSES_URL } from 'helpers/constants';
 import { handleElementFormat } from 'helpers/formatHelper';
 import { TokenContext } from 'context/TokenContextProvider';

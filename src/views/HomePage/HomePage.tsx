@@ -4,7 +4,7 @@ import CoursesList from 'components/CoursesList';
 import ScrollTopButton from 'components/ScrollTopButton';
 import Error from 'components/Error';
 import site_unavailable from 'images/site_unavailable.jpg';
-import useFetch from 'hooks/useFetch';
+import {useFetch} from 'petrovich-custom-hooks';
 import { COURSES_URL } from 'helpers/constants';
 import { TokenContext } from 'context/TokenContextProvider';
 import { colors } from 'utils/colors';
